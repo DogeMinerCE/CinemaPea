@@ -73,18 +73,27 @@ export const ProjectPanel: React.FC = () => {
               className="w-24 group flex flex-col gap-1 cursor-pointer"
               draggable={true}
               onDragStart={(e) => {
-                e.dataTransfer.setData('mediaId', media.id);
+                e.dataTransfer.setData('application/x-media-id', media.id);
                 e.dataTransfer.effectAllowed = 'copy';
+                useEditorStore.getState().setDraggingMedia(media);
+              }}
+              onDragEnd={() => {
+                useEditorStore.getState().setDraggingMedia(null);
               }}
               onDoubleClick={(e) => {
                 e.stopPropagation();
                 setSelectedSourceMedia(media);
               }}
             >
-              <div className="aspect-video bg-black border border-gray-700 rounded-sm overflow-hidden flex items-center justify-center relative">
-                {media.type === 'video' && <div className="absolute top-1 right-1 px-1 bg-black/60 rounded text-[8px]">VIDEO</div>}
+              <div className="w-full aspect-video bg-black border border-gray-700 rounded-sm overflow-hidden flex items-center justify-center relative" style={{ position: 'relative', overflow: 'hidden', width: '100%', aspectRatio: '16/9' }}>
+                {media.type === 'video' && <div className="absolute top-1 right-1 px-1 bg-black/60 rounded text-[10px] z-10">VIDEO</div>}
                 {media.thumbnail ? (
-                  <img src={media.thumbnail} className="w-full h-full object-cover" alt={media.name} />
+                  <img 
+                    src={media.thumbnail} 
+                    className="w-full h-full object-cover" 
+                    alt={media.name} 
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
                 ) : (
                   media.type === 'audio' ? <div className="text-[20px] opacity-30">♫</div> : null
                 )}

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface MediaFile {
+export interface MediaFile {
   id: string;
   name: string;
   url: string;
@@ -9,7 +9,7 @@ interface MediaFile {
   thumbnail?: string;
 }
 
-interface TimelineClip {
+export interface TimelineClip {
   id: string;
   mediaId: string;
   trackId: string;
@@ -19,7 +19,7 @@ interface TimelineClip {
   zIndex: number;
 }
 
-interface TimelineTrack {
+export interface TimelineTrack {
   id: string;
   type: 'video' | 'audio';
   index: number;
@@ -28,7 +28,7 @@ interface TimelineTrack {
   hidden: boolean;
 }
 
-interface EditorState {
+export interface EditorState {
   projectMedia: MediaFile[];
   tracks: TimelineTrack[];
   currentTime: number;
@@ -36,11 +36,15 @@ interface EditorState {
   isPlaying: boolean;
   selectedTool: 'selection' | 'razor';
   selectedSourceMedia: MediaFile | null;
+  draggingMedia: MediaFile | null;
+  draggingClipId: string | null;
   
   // Actions
   addMedia: (file: MediaFile) => void;
   removeMedia: (id: string) => void;
   setSelectedSourceMedia: (media: MediaFile | null) => void;
+  setDraggingMedia: (media: MediaFile | null) => void;
+  setDraggingClipId: (clipId: string | null) => void;
   setCurrentTime: (time: number) => void;
   setDuration: (duration: number) => void;
   setPlaying: (playing: boolean) => void;
@@ -62,6 +66,8 @@ export const useEditorStore = create<EditorState>((set) => ({
   isPlaying: false,
   selectedTool: 'selection',
   selectedSourceMedia: null,
+  draggingMedia: null,
+  draggingClipId: null,
 
   addMedia: (file) => set((state) => ({ 
     projectMedia: [...state.projectMedia, file] 
@@ -72,6 +78,10 @@ export const useEditorStore = create<EditorState>((set) => ({
   })),
 
   setSelectedSourceMedia: (media) => set({ selectedSourceMedia: media }),
+  
+  setDraggingMedia: (media) => set({ draggingMedia: media }),
+  
+  setDraggingClipId: (clipId) => set({ draggingClipId: clipId }),
 
   setCurrentTime: (time) => set({ currentTime: Math.max(0, time) }),
 

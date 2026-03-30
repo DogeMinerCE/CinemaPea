@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --bg-app: #121212;
   --bg-panel: #1D1D1D;
@@ -110,7 +114,15 @@ body {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1.2fr;
   width: 100vw;
-  height: calc(100vh - 25px); /* Space for top menu */
+  height: calc(100vh - 55px); /* Adjusted for header + footer */
+  overflow: hidden;
+  background-color: var(--border-color);
+}
+
+.workspace > * {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* Custom Grid Areas */

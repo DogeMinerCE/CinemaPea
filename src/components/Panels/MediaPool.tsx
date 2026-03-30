@@ -5,7 +5,7 @@ export const MediaPool: React.FC = () => {
   const { projectMedia } = useEditorStore();
   
   return (
-    <div className="hidden" id="media-pool">
+    <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', opacity: 0 }} id="media-pool">
       {projectMedia.map(media => {
         if (media.type === 'video' || media.type === 'audio') {
           return (
